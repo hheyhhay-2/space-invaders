@@ -1,0 +1,40 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://starwalk.space/gallery/images/what-is-space/1140x641.jpg");
+  background-color: #cccccc;
+  background-size: contains;
+  font-size: 12px;
+  color: white;
+}
+
+div {
+  width: 10px;
+  height: 10px;
+}
+
+button {
+  background-color: #04aa6d; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 450px;
+  position: absolute;
+}
+
+.battlefield {
+  display: flex;
+  border: 2px solid green;
+  height: 200px;
+  width: 200px;
+  margin: auto;
+  padding: 5px;
+  background-color: black;
+  flex-wrap: wrap;
+}
