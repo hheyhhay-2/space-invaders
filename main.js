@@ -9,12 +9,6 @@ startButton.addEventListener("click", (e) => {
   computerPlay();
 });
 
-document.body.addEventListener("keydown", (e) => {
-  const key = e.key;
-  game.shooter.moveShooter(key);
-  updateDom();
-});
-
 /** Class components */
 class Game {
   constructor() {
@@ -147,20 +141,29 @@ class Shooter {
 function initiateGame() {
   game = new Game();
   game.createBoard();
+  if (game) {
+    document.body.addEventListener("keydown", (e) => {
+      const key = e.key;
+      game.shooter.moveShooter(key);
+      updateDom();
+    });
+  }
   createDom();
 }
 
 function computerPlay() {
-  initiateGame();
-  let counter = 0;
-  const timeInterval = setInterval(() => {
-    game.moveAliens();
-    updateDom();
-    counter++;
-    if (game.gameOver === true) {
-      clearInterval(timeInterval);
-    }
-  }, 100);
+  if (!game) {
+    initiateGame();
+    let counter = 0;
+    const timeInterval = setInterval(() => {
+      game.moveAliens();
+      updateDom();
+      counter++;
+      if (game.gameOver === true) {
+        clearInterval(timeInterval);
+      }
+    }, 100);
+  }
 }
 
 /** DOM updates */
