@@ -23,14 +23,15 @@ class Game {
   createBoard() {
     this.aliens = new Aliens();
     this.aliens.createAliens();
-
+    console.log("here ??");
+    /** creates board units/positions  */
     for (let x = 0; x < 400; x++) {
       let position = new Position(x);
       this.positions.push(position);
     }
 
     this.aliens.aliens.forEach((alien) => {
-      this.positions[alien.coordinates].alien = alien;
+      this.positions[alien.coordinates].hasAlien = alien;
     });
   }
 
@@ -45,7 +46,7 @@ class Game {
       if (this.direction === "right") {
         alien.coordinates++;
         if (alien.id === 0 || alien.id === 11 || alien.id === 22) {
-          this.positions[alien.coordinates - 1].alien = false;
+          this.positions[alien.coordinates - 1].hasAlien = false;
         }
       }
       /** move down */
@@ -53,7 +54,7 @@ class Game {
         let oldPos = alien.coordinates;
         alien.coordinates = alien.coordinates + 20;
         if (alien.id < 11) {
-          this.positions[oldPos].alien = false;
+          this.positions[oldPos].hasAlien = false;
         }
       }
       /** move left */
@@ -61,11 +62,12 @@ class Game {
         alien.coordinates--;
 
         if (alien.id === 10 || alien.id === 21 || alien.id === 32) {
-          this.positions[alien.coordinates + 1].alien = false;
+          this.positions[alien.coordinates + 1].hasAlien = false;
         }
       }
+
       if (alien.coordinates >= 0 && alien.coordinates < this.positions.length) {
-        this.positions[alien.coordinates].alien = true;
+        this.positions[alien.coordinates].hasAlien = true;
       }
     });
 
@@ -87,13 +89,17 @@ class Game {
       return;
     }
   }
+
+  checksBulliet() {}
+  // checking for bulliet, if activeBulliet.
 }
 
 class Position {
   constructor(id) {
     this.id = id;
-    this.alien = false;
-    this.shooter = false;
+    this.hasAlien = false; // hasAlien
+    this.shooter = false; // hasShooter
+    this.bulliet = false; // hasBulliet
   }
 }
 
@@ -141,6 +147,23 @@ class Shooter {
       this.position--;
     }
   }
+  shoots() {
+    const bulliet = new Bulliet(this.position);
+    /** this.position  */
+    bulliet.movesTrajectory();
+  }
+}
+
+class Bulliet {
+  constructor(position) {
+    this.hasShoot = false;
+    this.position = position;
+  }
+  movesTrajectory() {
+    for (let x = 0; x < 19; x++) {
+      this.position = this.position - 20;
+    }
+  }
 }
 
 /** Functions */
@@ -179,7 +202,7 @@ function createDom() {
     const el = document.createElement("div");
     el.id = `unit-${position.id}`;
     el.classList.add("unit");
-    el.textContent = position.alien ? "👾" : "";
+    el.textContent = position.hasAlien ? "👾" : "";
     battlefield.appendChild(el);
   });
 
@@ -193,7 +216,7 @@ function updateDom() {
     /** only makes DOM changes to the battlefield */
     if (position.id >= 0 && position.id < 380) {
       const el = document.getElementById(`unit-${position.id}`);
-      el.textContent = position.alien ? "👾" : "";
+      el.textContent = position.hasAlien ? "👾" : "";
     } else {
       /** Only makes DOM changes to shooter */
       const el = document.getElementById(`unit-${game.shooter.position}`);
