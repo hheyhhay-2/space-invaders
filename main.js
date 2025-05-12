@@ -103,14 +103,20 @@ class Aliens {
   }
 
   createAliens() {
-    const initialPositions = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-      30, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-    ];
+    for (let a = 0; a < 33; a++) {
+      for (let x = 0; x < 11; x++) {
+        let alien = new Alien(a, x);
+        this.aliens.push(alien);
+      }
+      for (let x = 20; x < 31; x++) {
+        let alien = new Alien(a, x);
+        this.aliens.push(alien);
+      }
 
-    for (let x = 0; x < 33; x++) {
-      let alien = new Alien(x, initialPositions[x]);
-      this.aliens.push(alien);
+      for (let x = 40; x < 51; x++) {
+        let alien = new Alien(a, x);
+        this.aliens.push(alien);
+      }
     }
   }
 }
